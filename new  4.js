@@ -5,19 +5,23 @@ blank  参数是用于输出的样式更易于查看
 
 问题是没有像php的print_r()一样输出多维数组样式
 */
-function print_r(output, Return,blank) {
+function print_r(output, Return) {
 	function isArray(obj) {
 		return obj && ( typeof obj === 'object') && (obj.constructor == Array);
 	}
 	function NumBlank(num) {
-	var re = '';
-		for(var i=0;i<num;i++)
+	var word = "    ";
+		if(typeof(num) == 'string')
 		{
-		re += ' ';
+			return num.split(word).length
 		}
-		return re;
+		else
+		{
+			return num?new Array(num).join(word):'';
+		}
 	}
-	var blank = blank?NumBlank(3):'';
+	t++;
+	var blank = NumBlank(t);
 	var type = typeof(output);
 	var echo = '';
 	var Return = Return ? true: false;
@@ -37,10 +41,12 @@ function print_r(output, Return,blank) {
 	case 'object':
 		{
 			var i;
+			a++
+			//alert(a);//1 2 3 11
+			var blank = NumBlank(a);
 			echo += "\n"+blank+"(\n";
 			for (i in output) {
-				var blank_ = isArray(output[i])?true:false;
-				echo += blank +' [' + i + ']' + "=>" + print_r(output[i],1,blank_) + "\n";
+				echo += blank +' [' + i + ']' + "=>" + print_r(output[i],1) + "\n";
 			}
 			echo += blank+")";
 			break;
@@ -51,9 +57,8 @@ function print_r(output, Return,blank) {
 			break;
 		}
 	}
-	//if(Return){return echo;}else{alert(echo);};
 	return Return ? echo: alert(echo);
-	//alert(echo);
+
 
 }
 var arr = [];
@@ -66,4 +71,5 @@ arr['2'] = {
 //arr['2'] = {'a':'a','b':'b'};
 //arr['3'] = {};
 // alert(typeof(arr));
-print_r(arr);
+var a=t=0;
+print_r(arr,0);
